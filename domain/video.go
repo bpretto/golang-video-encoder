@@ -11,6 +11,7 @@ type Video struct {
 	ResourceID string    `valid:"notnull"`
 	FilePath   string    `valid:"notnull"`
 	CreatedAt  time.Time `valid:"-"`
+	Job        []*Job    `valid:"-"`
 }
 
 func init() {

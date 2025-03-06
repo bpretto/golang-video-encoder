@@ -12,6 +12,7 @@ type Job struct {
 	OutputBucketPath string    `valid:"notnull"`
 	Status           string    `valid:"notnull, in(pending|ongoing|completed|failed)"`
 	Video            *Video    `valid:"-"`
+	VideoID          string    `valid:"-"`
 	Error            string    `valid:"-"`
 	CreatedAt        time.Time `valid:"-"`
 	UpdatedAt        time.Time `valid:"-"`
