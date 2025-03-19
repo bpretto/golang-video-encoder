@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -74,21 +75,41 @@ func (vu *VideoUpload) ProccessUpload(concurrency int, doneUpload chan string) e
 		return err
 	}
 
-	for proccess := 0; proccess < concurrency; proccess++ {
+	for range concurrency {
 		go vu.uploadWorker(in, returnChannel, uploadClient, ctx)
 	}
 
 	go func() {
-		for x := 0; x < len(vu.Paths); x++ {
+		for x := range vu.Paths {
 			in <- x
 		}
+		close(in)
 	}()
+
+	for r := range returnChannel {
+		if r != "" {
+			doneUpload <- r
+			break
+		}
+	}
 
 	return nil
 }
 
 func (vu *VideoUpload) uploadWorker(in chan int, returnChan chan string, uploadClient *storage.Client, ctx context.Context) {
+	for x := range in {
+		err := vu.UploadObject(vu.Paths[x], uploadClient, ctx)
 
+		if err != nil {
+			vu.Errors = append(vu.Errors, vu.Paths[x])
+			log.Printf("Error during upload: %v. Error: %v", vu.Paths[x], err)
+			returnChan <- err.Error()
+		}
+
+		returnChan <- ""
+	}
+
+	returnChan <- "upload completed"
 }
 
 func getClientUpload() (*storage.Client, context.Context, error) {
