@@ -49,6 +49,7 @@ func (vu *VideoUpload) loadPaths() error {
 		if !info.IsDir() {
 			vu.Paths = append(vu.Paths, path)
 		}
+		return nil
 	})
 
 	if err != nil {
