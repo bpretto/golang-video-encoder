@@ -10,7 +10,7 @@ import (
 type Job struct {
 	ID               string    `json:"job_id" valid:"uuidv4" gorm:"type:uuid;primary_key"`
 	OutputBucketPath string    `json:"output_bucket_path" valid:"notnull"`
-	Status           string    `json:"status" valid:"notnull, in(pending|ongoing|completed|failed)"`
+	Status           string    `json:"status" valid:"notnull, in(PENDING|ONGOING|COMPLETED|FAILED)"`
 	Video            *Video    `json:"video" valid:"-"`
 	VideoID          string    `json:"-" valid:"-" gorm:"column:video_id;type:uuid;notnull"`
 	Error            string    `valid:"-"`
