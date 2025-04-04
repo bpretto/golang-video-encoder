@@ -80,6 +80,7 @@ func (j *JobService) Start() error {
 }
 
 func (j *JobService) performUpload() error {
+
 	err := j.changeJobStatus("UPLOADING")
 
 	if err != nil {
@@ -94,8 +95,7 @@ func (j *JobService) performUpload() error {
 
 	go videoUpload.ProcessUpload(concurrency, doneUpload)
 
-	var uploadResult string
-	uploadResult = <-doneUpload
+	uploadResult := <-doneUpload
 
 	if uploadResult != "upload completed" {
 		return j.failJob(errors.New(uploadResult))
@@ -115,10 +115,10 @@ func (j *JobService) changeJobStatus(status string) error {
 	}
 
 	return nil
-
 }
 
 func (j *JobService) failJob(error error) error {
+
 	j.Job.Status = "FAILED"
 	j.Job.Error = error.Error()
 
