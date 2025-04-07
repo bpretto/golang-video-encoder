@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoder/application/repositories"
 	"encoder/domain"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -39,7 +39,7 @@ func (v *VideoService) Download(bucketName string) error {
 	}
 	defer r.Close()
 
-	body, err := io.ReadAll(r)
+	body, err := ioutil.ReadAll(r)
 	if err != nil {
 		return err
 	}
