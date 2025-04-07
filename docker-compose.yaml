@@ -9,7 +9,8 @@ services:
     restart: always
     tty: true
     volumes:
-      - .pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=encoder
@@ -26,3 +27,8 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+
+volumes:
+  pgdata:
+
+
