@@ -90,7 +90,7 @@ func (v *VideoService) Encode() error {
 	cmdArgs = append(cmdArgs, os.Getenv("localStoragePath")+"/"+v.Video.ID)
 	cmdArgs = append(cmdArgs, "-f")
 	cmdArgs = append(cmdArgs, "--exec-dir")
-	cmdArgs = append(cmdArgs, "/opt/Bento4/bin/")
+	cmdArgs = append(cmdArgs, "/opt/bento4/bin/")
 	cmd := exec.Command("mp4dash", cmdArgs...)
 
 	output, err := cmd.CombinedOutput()
